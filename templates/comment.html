@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Izohlar — BlogSayt</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:Arial,sans-serif;background:#f5f7fb;color:#0f172a;}
+nav{background:#0f172a;color:white;position:sticky;top:0;z-index:100;}
+nav ul{display:flex;list-style:none;padding:10px 20px;gap:20px;}
+nav ul li a{color:white;text-decoration:none;padding:8px 12px;border-radius:6px;}
+nav ul li a:hover{background:rgba(255,255,255,0.1);}
+.container{max-width:1100px;margin:30px auto;width:90%;}
+.card{background:white;border-radius:12px;padding:16px;box-shadow:0 6px 20px rgba(2,6,23,0.08);border:1px solid rgba(15,23,42,0.04);margin-bottom:20px;}
+.card h4{font-size:16px;margin-bottom:4px;}
+.card p{font-size:14px;color:#6b7280;}
+</style>
+</head>
+<body>
+<nav>
+        <a href="{% url 'user' %}">user</a>
+        <a href="{% url 'blog' %}">Blog</a>
+        <a href="{% url 'tlogcomment' %}">blogcomment</a>
+        <a href="{% url 'comment' %}">Comment</a>
+      </nav>
+<div class="container">
+    <h2>Izohlar</h2>
+    {% for c in comments %}
+    <div class="card">
+        <h4>{{ c.user.username }} ({{ c.blog.nomi }})</h4>
+        <p>{{ c.text }}</p>
+        <small>{{ c.yaratilgan_kun }}</small>
+    </div>
+    {% empty %}
+    <p>Hozircha izoh yo‘q.</p>
+    {% endfor %}
+</div>
+</body>
+</html>

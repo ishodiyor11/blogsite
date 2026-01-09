@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foydalanuvchilar — BlogSayt</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:Arial,sans-serif;background:#f5f7fb;color:#0f172a;}
+        nav{background:#0f172a;color:white;position:sticky;top:0;z-index:100;}
+        nav ul{display:flex;list-style:none;padding:10px 20px;gap:20px;}
+        nav ul li a{color:white;text-decoration:none;padding:8px 12px;border-radius:6px;}
+        nav ul li a:hover{background:rgba(255,255,255,0.1);}
+        .container{max-width:1100px;margin:30px auto;width:90%;}
+        .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+        .card{background:white;border-radius:12px;padding:16px;box-shadow:0 6px 20px rgba(2,6,23,0.08);border:1px solid rgba(15,23,42,0.04);display:flex;gap:14px;align-items:center;}
+        .card img{width:84px;height:84px;border-radius:12px;object-fit:cover;}
+        .card .meta{flex:1;}
+        .card .meta h3{font-size:16px;margin-bottom:4px;}
+        .card .meta p{font-size:13px;color:#6b7280;margin:2px 0;}
+        .btn{padding:8px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:600;}
+        .btn-primary{background:#06b6d4;color:white;}
+        .btn-ghost{background:transparent;border:1px solid #06b6d4;color:#06b6d4;}
+        @media(max-width:720px){.card{flex-direction:column;align-items:flex-start;}}
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'user' %}">User</a>
+        <a href="{% url 'blog' %}">Blog</a>
+        <a href="{% url 'tlogcomment' %}">blogcomment</a>
+        <a href="{% url 'comment' %}">Comment</a>
+      </nav>
+
+    <div class="container">
+        <h2>Foydalanuvchilar</h2>
+        <div class="grid">
+
+            <div class="card">
+                <img src="{% if u.profil_rasm %}{{ u.profil_rasm.url }}{% else %}https://via.placeholder.com/84{% endif %}" alt="{{ u.ism }}">
+                <div class="meta">
+                    <h3>{{ u.ism }} {{ u.familiya }}</h3>
+                    <p>Username: {{ u.username }}</p>
+                    <p>Email: {{ u.email }}</p>
+                    <p>Yosh: {{ u.yosh }}</p>
+                </div>
+                <div>
+                    <a href="/user/{{ u.id }}/" class="btn btn-primary">Profil</a>
+                </div>
+            </div>
+ 
+            <p>Hozircha foydalanuvchi yo‘q.</p>
+
+        </div>
+    </div>
+</body>
+</html>

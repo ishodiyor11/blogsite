@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlogSayt — Bosh sahifa</title>
+<style>
+/* ========================
+   Global Reset & Base
+======================== */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:Arial,sans-serif;background:#f5f7fb;color:#0f172a;line-height:1.6;}
+a{text-decoration:none;color:inherit;}
+
+/* ========================
+   Navbar
+======================== */
+nav{background:#0f172a;color:white;position:sticky;top:0;z-index:100;}
+nav ul{display:flex;list-style:none;padding:10px 20px;gap:20px;align-items:center;}
+nav ul li a{color:white;padding:8px 12px;border-radius:6px;transition:background 0.3s;}
+nav ul li a:hover{background:rgba(255,255,255,0.1);}
+
+/* ========================
+   Header
+======================== */
+.header{padding:60px 20px;text-align:center;background:linear-gradient(135deg,#06b6d4,#3b82f6);color:white;}
+.header h1{font-size:48px;margin-bottom:10px;}
+.header p{font-size:20px;color:white;opacity:0.9;}
+
+/* ========================
+   Section Cards
+======================== */
+.container{max-width:1100px;margin:40px auto;width:90%;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+.card{background:white;border-radius:12px;padding:20px;box-shadow:0 6px 20px rgba(2,6,23,0.08);border:1px solid rgba(15,23,42,0.04);transition:transform 0.3s;}
+.card:hover{transform:translateY(-5px);}
+.card img{width:100%;height:180px;object-fit:cover;border-radius:12px;}
+.card h3{margin:10px 0;font-size:18px;}
+.card p{color:#6b7280;font-size:14px;}
+.btn{padding:8px 12px;border-radius:8px;border:none;font-weight:600;background:#06b6d4;color:white;transition:background 0.3s;}
+.btn:hover{background:#0ea5e9;}
+
+/* ========================
+   Footer
+======================== */
+footer{text-align:center;padding:20px;background:#0f172a;color:white;margin-top:40px;}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav>
+<ul>
+<li><a href="/users/">Foydalanuvchilar</a></li>
+<li><a href="/blogs/">Bloglar</a></li>
+<li><a href="/comments/">Izohlar</a></li>
+<li><a href="/blogcomments/">Blog Izohlari</a></li>
+<li><a href="/">Bosh sahifa</a></li>
+</ul>
+</nav>
+
+<!-- Header -->
+<div class="header">
+<h1>BlogSayt</h1>
+<p>Foydalanuvchilar, bloglar va izohlarni ko‘rish va boshqarish</p>
+</div>
+
+<!-- Foydalanuvchilar bo‘limi -->
+<div class="container">
+<h2>So‘nggi Foydalanuvchilar</h2>
+<div class="grid">
+{% for u in users|slice:":4" %}
+<div class="card">
+<img src="{% if u.profil_rasm %}{{ u.profil_rasm.url }}{% else %}https://via.placeholder.com/300x180{% endif %}" alt="{{ u.ism }}">
+<h3>{{ u.ism }} {{ u.familiya }}</h3>
+<p>Username: {{ u.username }}</p>
+<a href="/user/{{ u.id }}/" class="btn">Profilga o‘tish</a>
+</div>
+{% empty %}
+<p>Hozircha foydalanuvchi yo‘q.</p>
+{% endfor %}
+</div>
+</div>
+
+<!-- Bloglar bo‘limi -->
+<div class="container">
+<h2>So‘nggi Bloglar</h2>
+<div class="grid">
+{% for b in blogs|slice:":4" %}
+<div class="card">
+<img src="{{ b.rasmi.url }}" alt="{{ b.nomi }}">
+<h3>{{ b.nomi }}</h3>
+<p>{{ b.qisqa_tavsif }}</p>
+<p>Muallif: {{ b.user.username }}</p>
+<a href="/blog/{{ b.id }}/" class="btn">Ko‘rish</a>
+</div>
+{% empty %}
+<p>Hozircha blog yo‘q.</p>
+{% endfor %}
+</div>
+</div>
+
+<!-- Izohlar bo‘limi -->
+<div class="container">
+<h2>So‘nggi Izohlar</h2>
+<div class="grid">
+{% for c in comments|slice:":4" %}
+<div class="card">
+<h3>{{ c.user.username }} → {{ c.blog.nomi }}</h3>
+<p>{{ c.text }}</p>
+<small>{{ c.yaratilgan_kun }}</small>
+</div>
+{% empty %}
+<p>Hozircha izoh yo‘q.</p>
+{% endfor %}
+</div>
+</div>
+
+<!-- BlogCommentlar bo‘limi -->
+<div class="container">
+<h2>So‘nggi Blog Izohlari</h2>
+<div class="grid">
+{% for b in blogs|slice:":2" %}
+<h3>{{ b.nomi }}</h3>
+{% for bc in b.blog_comments.all %}
+<div class="card">
+<h4>{{ bc.user.username }}</h4>
+<p>{{ bc.text }}</p>
+<small>{{ bc.yaratilgan_vaqt }}</small>
+</div>
+{% empty %}
+<p>Hozircha izoh yo‘q.</p>
+{% endfor %}
+<hr>
+{% empty %}
+<p>Hozircha blog yo‘q.</p>
+{% endfor %}
+</div>
+</div>
+
+<footer>
+<p>© 2025 BlogSayt. Barcha huquqlar himoyalangan.</p>
+</footer>
+
+</body>
+</html>
